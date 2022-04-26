@@ -46,9 +46,6 @@ jobs:
         run: |
           _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
           _chrome_linux_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.deb | sed 's|.*/google-chrome-stable_||g' | cut -d_ -f1)"
-          echo ${_repo}
-          echo ${_chrome_linux_ver}
-          sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.deb*
           if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_linux_ver}/google-chrome-stable_${_chrome_linux_ver}_amd64.deb"; then
               sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.deb | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
               sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.deb.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
@@ -60,9 +57,6 @@ jobs:
         run: |
           _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
           _chrome_linux_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.rpm | sed 's|.*/google-chrome-stable_||g' | cut -d_ -f1)"
-          echo ${_repo}
-          echo ${_chrome_linux_ver}
-          sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.rpm*          
           if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_linux_ver}/google-chrome-stable_${_chrome_linux_ver}_x86_64.rpm"; then
               sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.rpm | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
               sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.rpm.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
