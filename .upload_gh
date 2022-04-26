@@ -56,6 +56,9 @@ if [[ ! -f /usr/bin/github-release && ! -x /usr/bin/github-release ]]; then
     sleep 1
     cd /tmp
     rm -fr "${_tmp_dir}"
+    echo
+    /usr/bin/github-release --version
+    echo
 fi
 
 cd "${_old_dir}"
