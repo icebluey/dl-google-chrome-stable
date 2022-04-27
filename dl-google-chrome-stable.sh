@@ -24,6 +24,8 @@ umask 022
 # 64bit
 #https://dl.google.com/release2/chrome/nf5ognz3picdt5dg3wh2iowgkq_98.0.4758.102/98.0.4758.102_chrome_installer.exe
 
+#https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF757ABC6-8B46-CEBD-1287-EA1EDD5554C4%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable-statsdef_1%26installdataindex%3Dempty/chrome/install/ChromeStandaloneSetup64.exe
+
 # lang=en lang=zh-CN lang=zh-TW
 # lang=en&browser=4&usagestats=1&appname=Google Chrome&needsadmin=prefers&ap=x64-stable-statsdef_1&installdataindex=defaultbrowser/chrome/install/ChromeStandaloneSetup64.exe"
 # lang=en&browser=4&usagestats=0&appname=Google Chrome&needsadmin=prefers&ap=x64-stable-statsdef_1&installdataindex=empty/chrome/install/ChromeStandaloneSetup64.exe"
@@ -63,7 +65,10 @@ sha256sum "google-chrome-stable_${_chrome_rpm_ver}-${_chrome_rpm_rel}_x86_64.rpm
 
 ############################################################################
 
-wget -q -c -t 9 -T 9 "https://dl.google.com/tag/s/lang=en&installdataindex=empty/chrome/install/ChromeStandaloneSetup64.exe"
+_new_uuid="$(cat /proc/sys/kernel/random/uuid | tr '[:lower:]' '[:upper:]')"
+wget -q -c -t 9 -T 9 "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B${_new_uuid}%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable-statsdef_1%26installdataindex%3Dempty/chrome/install/ChromeStandaloneSetup64.exe"
+
+#wget -q -c -t 9 -T 9 "https://dl.google.com/tag/s/lang=en&installdataindex=empty/chrome/install/ChromeStandaloneSetup64.exe"
 sleep 1
 mkdir .win
 7z x ChromeStandaloneSetup64.exe -o.win/
@@ -74,6 +79,7 @@ mv -v -f ChromeStandaloneSetup64.exe "google-chrome-stable-alluseraccounts_${_ch
 sleep 1
 sha256sum "google-chrome-stable-alluseraccounts_${_chrome_win_ver}-1_x64.exe" > "google-chrome-stable-alluseraccounts_${_chrome_win_ver}-1_x64.exe".sha256
 _chrome_win_ver=''
+_new_uuid=''
 
 ############################################################################
 
