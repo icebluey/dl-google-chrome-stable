@@ -45,8 +45,8 @@ if [[ ! -f /usr/bin/github-release && ! -x /usr/bin/github-release ]]; then
     cd /tmp
     _tmp_dir="$(mktemp -d)"
     cd "${_tmp_dir}"
-    _github_release_ver="$(wget -qO- 'https://github.com/github-release/github-release/releases' | grep -i '/github-release/github-release/releases/download/.*/linux-amd64-github-release.bz2' | sed 's|"|\n|g' | grep -i '/github-release/github-release/releases/download/.*/linux-amd64-github-release.bz2' | sort -V | uniq | tail -n 1)"
-    wget -q -c -t 0 -T 9 "https://github.com/${_github_release_ver}"
+    #_github_release_ver="$(wget -qO- 'https://github.com/github-release/github-release/releases' | grep -i '/github-release/github-release/releases/download/.*/linux-amd64-github-release.bz2' | sed 's|"|\n|g' | grep -i '/github-release/github-release/releases/download/.*/linux-amd64-github-release.bz2' | sort -V | uniq | tail -n 1)"
+    wget -q -c -t 0 -T 9 "https://github.com/github-release/github-release/releases/download/v0.10.0/linux-amd64-github-release.bz2"
     bzip2 -d linux-amd64-github-release.bz2
     rm -fr /usr/bin/github-release
     sleep 1
