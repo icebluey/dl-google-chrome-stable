@@ -77,7 +77,7 @@ sleep 1
 rm -fr .win
 mv -v -f ChromeStandaloneSetup64.exe "google-chrome-stable-alluseraccounts_${_chrome_win_ver}-1_x64.exe"
 sleep 1
-sha256sum "google-chrome-stable-alluseraccounts_${_chrome_win_ver}-1_x64.exe" > "google-chrome-stable-alluseraccounts_${_chrome_win_ver}-1_x64.exe".sha256
+openssl dgst -r -sha256 "google-chrome-stable-alluseraccounts_${_chrome_win_ver}-1_x64.exe" > "google-chrome-stable-alluseraccounts_${_chrome_win_ver}-1_x64.exe".sha256
 _chrome_win_ver=''
 _new_uuid=''
 
@@ -93,7 +93,7 @@ wget -q -c -t 9 -T 9 "${_url_codebase}/${_chrome_installer_name}"
 sleep 1
 mv -v -f "${_chrome_installer_name}" "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe"
 sleep 1
-sha256sum "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe" > "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe".sha256
+openssl dgst -r -sha256 "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe" > "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe".sha256
 
 _query_file='.xml/query-stable-x86.xml'
 _chrome_win_arch="$(echo ${_query_file} | awk -F/ '{print $NF}' | cut -d- -f3 | sed 's|\.xml.*||g')"
@@ -105,7 +105,7 @@ wget -q -c -t 9 -T 9 "${_url_codebase}/${_chrome_installer_name}"
 sleep 1
 mv -v -f "${_chrome_installer_name}" "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe"
 sleep 1
-sha256sum "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe" > "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe".sha256
+openssl dgst -r -sha256 "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe" > "google-chrome-stable_${_chrome_installer_ver}-1_${_chrome_win_arch}.exe".sha256
 
 sleep 2
 rm -fr /tmp/_output/chrome
