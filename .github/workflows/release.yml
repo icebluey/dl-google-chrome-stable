@@ -1,0 +1,115 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  #push:
+  #  branches: [ master ]
+  #pull_request:
+  #  branches: [ master ]
+  schedule:
+    - cron: '1 22 * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup env
+      - name: To install tools
+        run: |
+          sudo date -R
+          sudo apt update -y -qqq
+          sudo systemctl stop docker.service >/dev/null 2>&1 || : 
+          sudo systemctl disable docker.service >/dev/null 2>&1 || : 
+          sudo apt install -y -qqq bash wget ca-certificates curl
+          sudo apt install -y -qqq binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
+          sudo apt install -y -qqq rpm p7zip-full libxml2-utils
+
+      - name: To download google-chrome-stable
+        run: |
+          sudo bash dl-google-chrome-stable.sh
+
+      - name: Linux amd64 deb
+        run: |
+          _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
+          _chrome_linux_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.deb | sed 's|.*/google-chrome-stable_||g' | cut -d_ -f1)"
+          if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_linux_ver}/google-chrome-stable_${_chrome_linux_ver}_amd64.deb"; then
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.deb | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.deb.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+          fi
+          _chrome_linux_ver=''
+          _repo=''
+
+      - name: Linux x86_64 rpm
+        run: |
+          _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
+          _chrome_linux_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.rpm | sed 's|.*/google-chrome-stable_||g' | cut -d_ -f1)"
+          if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_linux_ver}/google-chrome-stable_${_chrome_linux_ver}_x86_64.rpm"; then
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.rpm | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*.rpm.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_linux_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+          fi
+          _chrome_linux_ver=''
+          _repo=''
+
+      - name: Windows x64 exe for all user accounts
+        run: |
+          _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
+          _chrome_windows_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*_x64.exe | sed 's|.*/google-chrome-stable_||g' | cut -d_ -f1)"
+          if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_windows_ver}/google-chrome-stable_${_chrome_windows_ver}_x64.exe"; then
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*_x64.exe | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*_x64.exe.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+          fi
+          _chrome_windows_ver=''
+          _repo=''
+
+      - name: Windows x86 exe for all user accounts
+        run: |
+          _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
+          _chrome_windows_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*_x86.exe | sed 's|.*/google-chrome-stable_||g' | cut -d_ -f1)"
+          if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_windows_ver}/google-chrome-stable_${_chrome_windows_ver}_x86.exe"; then
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*_x86.exe | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable_*_x86.exe.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+          fi
+          _chrome_windows_ver=''
+          _repo=''
+
+      - name: Windows x64 exe for single user accounts
+        run: |
+          _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
+          _chrome_windows_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable-singleuser_*_x64.exe | sed 's|.*/google-chrome-stable-singleuser_||g' | cut -d_ -f1)"
+          if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_windows_ver}/google-chrome-stable-singleuser_${_chrome_windows_ver}_x64.exe"; then
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable-singleuser_*_x64.exe | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable-singleuser_*_x64.exe.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+          fi
+          _chrome_windows_ver=''
+          _repo=''
+
+      - name: Windows x86 exe for single user accounts
+        run: |
+          _repo="$(echo ${{ github.repository }} | awk -F '/' '{print $2}')"
+          _chrome_windows_ver="$(sudo ls -1 /tmp/_output/chrome/google-chrome-stable-singleuser_*_x86.exe | sed 's|.*/google-chrome-stable-singleuser_||g' | cut -d_ -f1)"
+          if ! wget -q -O /dev/null "https://github.com/${{ github.repository }}/releases/download/v${_chrome_windows_ver}/google-chrome-stable-singleuser_${_chrome_windows_ver}_x86.exe"; then
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable-singleuser_*_x86.exe | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+              sudo ls -1 /tmp/_output/chrome/google-chrome-stable-singleuser_*_x86.exe.sha256 | sudo xargs --no-run-if-empty -I '{}' sudo bash .upload_gh -f '{}' -u "${{ github.repository_owner }}" -r "${_repo}" -t "v${_chrome_windows_ver}" -k "${{ secrets.GITHUB_TOKEN }}"
+          fi
+          _chrome_windows_ver=''
+          _repo=''
+
+      - name: Clean
+        run: |
+          cd /tmp
+          sudo rm -fr /tmp/*
+
