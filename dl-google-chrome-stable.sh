@@ -81,6 +81,7 @@ sleep 1
 mkdir .win
 7z x ChromeStandaloneSetup64.exe -o.win/
 _chrome_win_ver="$(strings .win/* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]' | sort -V | tail -n 1)"
+echo "${_chrome_win_ver}"
 sleep 1
 rm -fr .win
 mv -v -f ChromeStandaloneSetup64.exe "google-chrome-stable_${_chrome_win_ver}-1_x64.exe"
@@ -94,6 +95,7 @@ sleep 1
 mkdir .win
 7z x ChromeStandaloneSetup.exe -o.win/
 _chrome_win_ver="$(strings .win/* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]' | sort -V | tail -n 1)"
+echo "${_chrome_win_ver}"
 sleep 1
 rm -fr .win
 mv -v -f ChromeStandaloneSetup.exe "google-chrome-stable_${_chrome_win_ver}-1_x86.exe"
