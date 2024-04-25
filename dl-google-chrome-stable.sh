@@ -71,6 +71,8 @@ sha256sum "google-chrome-stable_${_chrome_rpm_ver}-${_chrome_rpm_rel}_x86_64.rpm
 
 ############################################################################
 
+# _chrome_win_ver='124.0.6367.79'
+
 _new_uuid="$(cat /proc/sys/kernel/random/uuid | tr '[:lower:]' '[:upper:]')"
 
 # x64
@@ -78,7 +80,7 @@ wget -q -c -t 9 -T 9 "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463
 sleep 1
 mkdir .win
 7z x ChromeStandaloneSetup64.exe -o.win/
-_chrome_win_ver="$(strings .win/1* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]')"
+_chrome_win_ver="$(strings .win/* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]' | sort -V | tail -n 1)"
 sleep 1
 rm -fr .win
 mv -v -f ChromeStandaloneSetup64.exe "google-chrome-stable_${_chrome_win_ver}-1_x64.exe"
@@ -91,7 +93,7 @@ wget -q -c -t 9 -T 9 "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463
 sleep 1
 mkdir .win
 7z x ChromeStandaloneSetup.exe -o.win/
-_chrome_win_ver="$(strings .win/1* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]')"
+_chrome_win_ver="$(strings .win/* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]' | sort -V | tail -n 1)"
 sleep 1
 rm -fr .win
 mv -v -f ChromeStandaloneSetup.exe "google-chrome-stable_${_chrome_win_ver}-1_x86.exe"
