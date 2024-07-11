@@ -9,6 +9,19 @@ umask 022
 #apt install -y -qqq p7zip-full
 #apt install -y -qqq libxml2-utils
 
+cd /tmp
+mkdir .install_7z
+cd .install_7z
+wget -c -t 9 -T 0 'https://www.7-zip.org/a/7z2407-linux-x64.tar.xz'
+mkdir .ext
+tar -xof 7z*.tar.xz -C .ext/
+[[ -f .ext/7zzs ]] && rm -vf /bin/7z
+install -v -c -m 0755 .ext/7zzs /bin/7z
+sleep 1
+cd ..
+rm -fr .install_7z
+cp -f /bin/7z /usr/local/bin/
+
 /sbin/ldconfig
 
 #https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
