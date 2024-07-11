@@ -20,6 +20,7 @@ install -v -c -m 0755 .ext/7zzs /bin/7z
 sleep 1
 cd ..
 rm -fr .install_7z
+rm -f /usr/local/bin/7z
 cp -f /bin/7z /usr/local/bin/
 
 /sbin/ldconfig
