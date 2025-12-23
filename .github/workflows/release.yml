@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v6
 
       # Setup env
-      - name: To install tools
+      - name: Setup
         run: |
           sudo apt install -y chrony; sudo systemctl start chrony; sleep 10; sudo chronyc makestep
           sudo apt update -y -qqq
@@ -28,7 +28,7 @@ jobs:
           sudo apt install -y -qqq openssl binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
           sudo apt install -y -qqq rpm libxml2-utils
 
-      - name: To download google-chrome-stable
+      - name: Download google-chrome-stable
         run: |
           sudo bash dl-google-chrome-stable.sh
 
@@ -51,43 +51,37 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_deb_ver }}
-          files: |
-            /tmp/_output/chrome/linux/google-chrome-stable_${{ env._chrome_deb_ver }}*.deb*
+          files: /tmp/_output/chrome/linux/google-chrome-stable_${{ env._chrome_deb_ver }}*.deb*
 
       - name: Upload rpm files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_rpm_ver }}
-          files: |
-            /tmp/_output/chrome/linux/google-chrome-stable_${{ env._chrome_deb_ver }}*.rpm*
+          files: /tmp/_output/chrome/linux/google-chrome-stable_${{ env._chrome_deb_ver }}*.rpm*
 
       - name: Upload mu x64 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_mu_64_ver }}
-          files: |
-            /tmp/_output/chrome/windows/google-chrome-stable_${{ env._chrome_win_mu_64_ver }}_x64.exe*
+          files: /tmp/_output/chrome/windows/google-chrome-stable_${{ env._chrome_win_mu_64_ver }}_x64.exe*
 
       - name: Upload mu x86 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_mu_86_ver }}
-          files: |
-            /tmp/_output/chrome/windows/google-chrome-stable_${{ env._chrome_win_mu_86_ver }}_x86.exe*
+          files: /tmp/_output/chrome/windows/google-chrome-stable_${{ env._chrome_win_mu_86_ver }}_x86.exe*
 
       - name: Upload su x64 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_su_64_ver }}
-          files: |
-            /tmp/_output/chrome/windows/google-chrome-stable-singleuser_${{ env._chrome_win_su_64_ver }}_x64.exe*
+          files: /tmp/_output/chrome/windows/google-chrome-stable-singleuser_${{ env._chrome_win_su_64_ver }}_x64.exe*
 
       - name: Upload su x86 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_su_86_ver }}
-          files: |
-            /tmp/_output/chrome/windows/google-chrome-stable-singleuser_${{ env._chrome_win_su_86_ver }}_x86.exe*
+          files: /tmp/_output/chrome/windows/google-chrome-stable-singleuser_${{ env._chrome_win_su_86_ver }}_x86.exe*
 
       - name: Clean
         run: |
