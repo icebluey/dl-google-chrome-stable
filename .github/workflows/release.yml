@@ -25,6 +25,7 @@ jobs:
           sudo apt update -y -qqq
           sudo systemctl stop docker.service containerd.service >/dev/null 2>&1 || : 
           sudo systemctl disable docker.service containerd.service >/dev/null 2>&1 || : 
+          sudo apt remove --purge -y '^docker.*' '^container.*' '^podman.*' crun runc '^php.*'
           sudo apt install -y -qqq bash wget ca-certificates curl
           sudo apt install -y -qqq openssl binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
           sudo apt install -y -qqq rpm libxml2-utils
