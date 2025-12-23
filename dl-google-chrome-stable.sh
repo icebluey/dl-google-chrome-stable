@@ -4,6 +4,7 @@ TZ='UTC'; export TZ
 /sbin/ldconfig
 umask 022
 cd "$(dirname "$0")"
+_old_dir="$(pwd)"
 
 #apt update -y -qqq
 #apt install -y -qqq rpm
@@ -67,7 +68,7 @@ _install_7z
 #https://redirector.gvt1.com/edgedl/
 
 set -e
-cd "$(dirname "$0")"
+cd "${_old_dir}"
 _tmp_dir="$(mktemp -d)"
 cp -a .xml "${_tmp_dir}"/.xml
 cd "${_tmp_dir}"
