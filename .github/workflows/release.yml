@@ -15,7 +15,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # Setup env
       - name: To install tools
@@ -27,7 +27,6 @@ jobs:
           sudo apt install -y -qqq bash wget ca-certificates curl
           sudo apt install -y -qqq openssl binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
           sudo apt install -y -qqq rpm libxml2-utils
-          #sudo apt install -y -qqq p7zip-full
 
       - name: To download google-chrome-stable
         run: |
