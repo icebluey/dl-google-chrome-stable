@@ -22,10 +22,13 @@ jobs:
         run: |
           sudo apt update -y -qqq
           sudo apt autoremove --purge -y needrestart || : 
-          sudo apt install -y chrony; sudo systemctl start chrony; sleep 10; sudo chronyc makestep
           sudo systemctl stop docker.service containerd.service >/dev/null 2>&1 || : 
           sudo systemctl disable docker.service containerd.service >/dev/null 2>&1 || : 
           sudo apt remove --purge -y '^docker.*' '^container.*' '^podman.*' crun runc '^php.*'
+          sudo snap remove --purge lxd; sudo snap remove --purge $(snap list | awk 'NR > 1 && $1 !~ /lxd/ && $1 !~ /snapd/ {print $1}' | sort -V | uniq | paste -sd" ")
+          sudo snap remove --purge lxd; sudo snap remove --purge snapd
+          sudo apt autoremove --purge -y lxd-agent-loader snapd; sudo rm -fr ~/snap /snap /var/snap /var/lib/snapd /var/cache/snapd /usr/lib/snapd
+          sudo apt install -y chrony; sudo systemctl start chrony; sleep 10; sudo chronyc makestep
           sudo apt install -y -qqq bash wget ca-certificates curl
           sudo apt install -y -qqq openssl binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
           sudo apt install -y -qqq rpm libxml2-utils
