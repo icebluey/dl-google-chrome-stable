@@ -5,7 +5,6 @@ TZ='UTC'; export TZ
 umask 022
 cd "$(dirname "$0")"
 _old_dir="$(pwd)"
-echo "${_old_dir}"
 
 #apt update -y -qqq
 #apt install -y -qqq rpm
@@ -70,7 +69,6 @@ _install_7z
 
 set -e
 cd "${_old_dir}"
-pwd
 _tmp_dir="$(mktemp -d)"
 cp -a .xml "${_tmp_dir}"/.xml
 cd "${_tmp_dir}"
