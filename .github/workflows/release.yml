@@ -32,11 +32,12 @@ jobs:
         run: |
           sudo date -R
           sudo apt update -y -qqq
-          sudo systemctl stop docker.service >/dev/null 2>&1 || : 
-          sudo systemctl disable docker.service >/dev/null 2>&1 || : 
+          sudo systemctl stop docker.service containerd.service >/dev/null 2>&1 || : 
+          sudo systemctl disable docker.service containerd.service >/dev/null 2>&1 || : 
           sudo apt install -y -qqq bash wget ca-certificates curl
-          sudo apt install -y -qqq binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
-          sudo apt install -y -qqq rpm p7zip-full libxml2-utils
+          sudo apt install -y -qqq openssl binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
+          sudo apt install -y -qqq rpm libxml2-utils
+          #sudo apt install -y -qqq p7zip-full
 
       - name: To download google-chrome-stable
         run: |
