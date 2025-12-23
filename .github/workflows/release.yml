@@ -20,6 +20,7 @@ jobs:
       # Setup env
       - name: Setup
         run: |
+          sudo apt autoremove --purge -y needrestart || : 
           sudo apt install -y chrony; sudo systemctl start chrony; sleep 10; sudo chronyc makestep
           sudo apt update -y -qqq
           sudo systemctl stop docker.service containerd.service >/dev/null 2>&1 || : 
