@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 TZ='UTC'; export TZ
-
+/sbin/ldconfig
 umask 022
 
 #apt update -y -qqq
@@ -9,19 +9,26 @@ umask 022
 #apt install -y -qqq p7zip-full
 #apt install -y -qqq libxml2-utils
 
-rm -fr /tmp/.install_7z 
-mkdir -p /tmp/.install_7z/.ext
-wget -c -t 9 -T 0 'https://www.7-zip.org/a/7z2407-linux-x64.tar.xz' -O /tmp/.install_7z/7z-linux-x64.tar.xz
-tar -xof /tmp/.install_7z/7z-linux-x64.tar.xz -C /tmp/.install_7z/.ext/
-[[ -f /tmp/.install_7z/.ext/7zzs ]] && rm -vf /bin/7z
-install -v -c -m 0755 /tmp/.install_7z/.ext/7zzs /bin/7z
-sleep 1
-rm -fr /tmp/.install_7z
-rm -f /usr/local/bin/7z
-cp -f /bin/7z /usr/local/bin/
-7z
-
-/sbin/ldconfig
+_install_7z() {
+    set -euo pipefail
+    local _tmp_dir="$(mktemp -d)"
+    cd "${_tmp_dir}"
+    _7zip_loc=$(wget -qO- 'https://www.7-zip.org/download.html' | grep -i '\-linux-x64.tar' | grep -i 'href="' | sed 's|"|\n|g' | grep -i '\-linux-x64.tar' | sort -V | tail -n 1)
+    _7zip_ver=$(echo ${_7zip_loc} | sed -e 's|.*7z||g' -e 's|-linux.*||g')
+    wget -c -t 9 -T 9 "https://www.7-zip.org/${_7zip_loc}"
+    sleep 1
+    tar -xof *.tar.*
+    sleep 1
+    rm -f *.tar*
+    rm -f /usr/bin/7z
+    rm -f /usr/local/bin/7z
+    install -v -c -m 0755 7zzs /usr/bin/7z
+    cp -af /usr/bin/7z /usr/local/bin/7z
+    cd /tmp
+    rm -fr "${_tmp_dir}"
+    /sbin/ldconfig
+}
+_install_7z
 
 #https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 #https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
