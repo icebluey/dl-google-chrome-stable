@@ -9,8 +9,8 @@ echo "${_old_dir}"
 
 #apt update -y -qqq
 #apt install -y -qqq rpm
-#apt install -y -qqq p7zip-full
 #apt install -y -qqq libxml2-utils
+#apt install -y -qqq p7zip-full
 
 _install_7z() {
     set -euo pipefail
