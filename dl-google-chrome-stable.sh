@@ -118,7 +118,7 @@ _new_uuid="$(cat /proc/sys/kernel/random/uuid | tr '[:lower:]' '[:upper:]')"
 # Windows x64
 wget -c -t 9 -T 9 "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B${_new_uuid}%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable-statsdef_1%26installdataindex%3Dempty/chrome/install/ChromeStandaloneSetup64.exe"
 mkdir .win
-7z x ChromeStandaloneSetup64.exe -o.win/
+/usr/bin/7z x ChromeStandaloneSetup64.exe -o.win/
 _chrome_win_ver="$(strings .win/* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]' | sort -V | tail -n 1)"
 echo "chrome win x64 version: ${_chrome_win_ver}"
 sleep 1
@@ -132,7 +132,7 @@ mv -f *.exe* /tmp/_output/chrome/windows/
 # Windows x86
 wget -q -c -t 9 -T 9 "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B${_new_uuid}%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dstable-arch_x86-statsdef_1%26installdataindex%3Dempty/chrome/install/ChromeStandaloneSetup.exe"
 mkdir .win
-7z x ChromeStandaloneSetup.exe -o.win/
+/usr/bin/7z x ChromeStandaloneSetup.exe -o.win/
 _chrome_win_ver="$(strings .win/* 2>&1 | grep -i '<url codebase="http://dl.google.com/edgedl/chrome/install'  | sed 's|.*install/||g' | sed 's|/|\n|g' | grep '^[1-9]' | sort -V | tail -n 1)"
 echo "chrome win x86 version: ${_chrome_win_ver}"
 sleep 1
