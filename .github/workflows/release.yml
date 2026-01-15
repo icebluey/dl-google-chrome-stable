@@ -60,42 +60,42 @@ jobs:
         with:
           tag_name: v${{ env._chrome_deb_ver }}
           files: /tmp/_output/chrome/linux/google-chrome-stable_${{ env._chrome_deb_ver }}*.deb*
-          overwrite_files: false
+          overwrite_files: true
 
       - name: Upload rpm files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_rpm_ver }}
           files: /tmp/_output/chrome/linux/google-chrome-stable_${{ env._chrome_deb_ver }}*.rpm*
-          overwrite_files: false
+          overwrite_files: true
 
       - name: Upload mu x64 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_mu_64_ver }}
           files: /tmp/_output/chrome/windows/google-chrome-stable_${{ env._chrome_win_mu_64_ver }}_x64.exe*
-          overwrite_files: false
+          overwrite_files: true
 
       - name: Upload mu x86 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_mu_86_ver }}
           files: /tmp/_output/chrome/windows/google-chrome-stable_${{ env._chrome_win_mu_86_ver }}_x86.exe*
-          overwrite_files: false
+          overwrite_files: true
 
       - name: Upload su x64 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_su_64_ver }}
           files: /tmp/_output/chrome/windows/google-chrome-stable-singleuser_${{ env._chrome_win_su_64_ver }}_x64.exe*
-          overwrite_files: false
+          overwrite_files: true
 
       - name: Upload su x86 exe files
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env._chrome_win_su_86_ver }}
           files: /tmp/_output/chrome/windows/google-chrome-stable-singleuser_${{ env._chrome_win_su_86_ver }}_x86.exe*
-          overwrite_files: false
+          overwrite_files: true
 
       - name: Clean
         run: >
