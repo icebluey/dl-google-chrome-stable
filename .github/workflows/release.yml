@@ -17,7 +17,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v6
 
-      # Setup env
       - name: Setup
         run: |
           sudo apt update -y -qqq
@@ -35,12 +34,13 @@ jobs:
           sudo rm -fr /var/lib/docker* /var/lib/containerd /usr/libexec/docker
           sudo apt autoremove --purge -y --allow-remove-essential $(dpkg -l | grep -i -E 'firefox|firebird|google-chrome-stable' | awk '{print $2}' | sort -V | uniq | paste -sd" ")
           sudo apt install -y chrony; sudo systemctl start chrony; sleep 10; sudo chronyc makestep
-          sudo apt install -y -qqq bash wget ca-certificates curl git openssl
-          sudo apt install -y -qqq binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
+          sudo apt install -y -qqq bash wget ca-certificates curl git openssl binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
+          sudo apt reinstall -y -qqq bash wget ca-certificates curl git openssl binutils coreutils util-linux findutils diffutils patch sed gawk grep file gzip bzip2 xz-utils tar
           sudo apt install -y -qqq rpm libxml2-utils
           #sudo apt upgrade -y -qqq
           sudo ln -svf bash /bin/sh
           sudo rm -fr /tmp/*
+          sudo df -Th
 
       - name: Download google-chrome-stable
         run: |
