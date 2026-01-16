@@ -24,8 +24,8 @@ jobs:
           sudo apt autoremove --purge -y needrestart || : 
           sudo systemctl stop docker.service containerd.service >/dev/null 2>&1 || : 
           sudo systemctl disable docker.service containerd.service >/dev/null 2>&1 || : 
-          sudo apt autoremove --purge -y --allow-remove-essential $(dpkg -l | grep -i -E 'firefox|firebird|google-chrome-stable' | awk '{print $2}' | sort -V | uniq | paste -sd" ")
           sudo apt autoremove --purge -y '^docker.*' '^container.*' '^podman.*' crun runc '^php.*' '^lxd.*' '^snap.*'
+          sudo apt autoremove --purge -y --allow-remove-essential $(dpkg -l | grep -i -E 'firefox|firebird|google-chrome-stable' | awk '{print $2}' | sort -V | uniq | paste -sd" ")
           sudo rm -fr ~/snap /snap /var/snap /var/lib/snapd /var/cache/snapd /usr/lib/snapd
           sudo apt install -y chrony; sudo systemctl start chrony; sleep 10; sudo chronyc makestep
           sudo apt install -y -qqq bash wget ca-certificates curl git openssl
